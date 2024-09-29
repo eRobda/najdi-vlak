@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import { Icon } from 'leaflet';
@@ -79,7 +79,7 @@ function TrainDetail() {
         return [lat, lon];
     };
 
-    const fetchTrainDetail = async () => {
+    const fetchTrainDetail = useCallback(async () => {
         try {
             const response = await fetch("https://mapy.spravazeleznic.cz/serverside/request2.php?module=Layers\\OsVlaky&&action=load");
             const data = await response.json();
@@ -107,7 +107,7 @@ function TrainDetail() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [id]);
 
     useEffect(() => {
         fetchTrainDetail();
@@ -117,7 +117,7 @@ function TrainDetail() {
         }, 30000);
 
         return () => clearInterval(interval);
-    }, [id]);
+    }, [fetchTrainDetail]);
 
     if (loading) {
         return <div className="min-h-screen flex justify-center items-center">Načítání...</div>;
