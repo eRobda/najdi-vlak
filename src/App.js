@@ -45,13 +45,17 @@ function App() {
 
   const filteredTrains = trains.filter(train => {
     const combinedTtTn = `${train.properties.tt} ${train.properties.tn}`.toLowerCase();
+    const combineFnLn = `${train.properties.fn} ${train.properties.ln}`.toLowerCase();
+    const combineLnFn = `${train.properties.ln} ${train.properties.fn}`.toLowerCase();
     
     return (
       train.properties.fn.toLowerCase().includes(searchTerm.toLowerCase()) ||
       train.properties.ln.toLowerCase().includes(searchTerm.toLowerCase()) ||
       train.properties.na.toLowerCase().includes(searchTerm.toLowerCase()) ||
       train.properties.tn.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      combinedTtTn.includes(searchTerm.toLowerCase())
+      combinedTtTn.includes(searchTerm.toLowerCase()) ||
+      combineFnLn.includes(searchTerm.toLowerCase()) ||
+      combineLnFn.includes(searchTerm.toLowerCase())
     );
   });
   
