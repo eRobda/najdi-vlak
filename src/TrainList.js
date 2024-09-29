@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import './index.css';
+import './index.css'; // Ensure Tailwind CSS is imported
 
-function App() {
+function TrainList() {
   const [searchTerm, setSearchTerm] = useState('');
   const [trains, setTrains] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -30,15 +30,15 @@ function App() {
   }, []);
 
   const getDelayColor = (delay) => {
-    if (delay === 0) return "bg-green-500";
-    if (delay > 0 && delay <= 10) return "bg-lime-500";
-    if (delay > 10 && delay <= 30) return "bg-orange-500";
-    if (delay > 30) return "bg-red-500";
-    return "bg-gray-300";
+    if (delay === 0) return "bg-green-500"; 
+    if (delay > 0 && delay <= 10) return "bg-lime-500"; 
+    if (delay > 10 && delay <= 30) return "bg-orange-500"; 
+    if (delay > 30) return "bg-red-500"; 
+    return "bg-gray-300"; 
   };
 
   const parseDelay = (delayStr) => {
-    if (!delayStr || !delayStr.includes('min')) return 0;
+    if (!delayStr || !delayStr.includes('min')) return 0; 
     const delay = parseInt(delayStr.split(' ')[0], 10);
     return isNaN(delay) ? 0 : delay;
   };
@@ -79,11 +79,10 @@ function App() {
               const delayColor = getDelayColor(delay);
 
               return (
-                <li
-                  key={train.id || index}
-                  className={`p-3 border-b border-gray-200 last:border-none hover:bg-blue-100 cursor-pointer flex justify-between items-center`}
-                >
-                  <Link to={`/train/${encodeURIComponent(train.id)}`} className="w-full">
+                <Link to={`/train/${train.id}`} key={train.id || index}>
+                  <li
+                    className={`p-3 border-b border-gray-200 last:border-none hover:bg-blue-100 cursor-pointer flex justify-between items-center`}
+                  >
                     <div>
                       <div className="text-lg font-bold">
                         {train.properties.na || `${train.properties.tt} ${train.properties.tn}`}
@@ -95,8 +94,8 @@ function App() {
                     <div className={`text-white p-2 rounded-lg ${delayColor}`}>
                       {delayStr || "Na čas"}
                     </div>
-                  </Link>
-                </li>
+                  </li>
+                </Link>
               );
             })}
           </ul>
@@ -108,4 +107,4 @@ function App() {
   );
 }
 
-export default App;
+export default TrainList;
