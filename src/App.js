@@ -43,12 +43,18 @@ function App() {
     return isNaN(delay) ? 0 : delay;
   };
 
-  const filteredTrains = trains.filter(train =>
-    train.properties.fn.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    train.properties.ln.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    train.properties.na.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    train.properties.tn.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredTrains = trains.filter(train => {
+    const combinedTtTn = `${train.properties.tt} ${train.properties.tn}`.toLowerCase();
+    
+    return (
+      train.properties.fn.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      train.properties.ln.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      train.properties.na.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      train.properties.tn.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      combinedTtTn.includes(searchTerm.toLowerCase())
+    );
+  });
+  
 
   if (loading) {
     return <div className="min-h-screen flex justify-center items-center">Načítání...</div>;
@@ -86,10 +92,10 @@ function App() {
                   <Link to={`/train/${encodeURIComponent(train.id)}`} className="w-full">
                     <div>
                       <div className="text-lg font-bold">
-                        {train.properties.na || `${train.properties.tt} ${train.properties.tn}`}
+                        {`${train.properties.na} ${train.properties.tt} ${train.properties.tn}`}
                       </div>
                       <div className="text-gray-600">
-                        Z: {train.properties.fn} → K: {train.properties.ln}
+                        Z: {train.properties.fn} → Do: {train.properties.ln}
                       </div>
                     </div>
                     <div className={`text-white p-2 rounded-lg ${delayColor}`}>
